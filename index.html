@@ -1,90 +1,269 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Meva Salut - Asistente Virtual</title>
+<title>La Meva Salut — Assistent Virtual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
   :root {
-    --primary: #2b7a78;
-    --primary-light: #def2f1;
-    --bg: #f8fafb;
+    --ink:        #1f2937;
+    --sage:       #3b82f6;
+    --sage-deep:  #2563eb;
+    --sage-line:  #dbeafe;
+    --sand:       #f8fbff;
+    --sand-light: #ffffff;
+    --gold:       #60a5fa;
+    --white:      #ffffff;
   }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+  }
+
   body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: linear-gradient(135deg, var(--bg) 0%, var(--primary-light) 100%);
+    font-family: 'Work Sans', system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--sand-light);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(63,111,99,0.08) 0, transparent 45%),
+      radial-gradient(circle at 85% 75%, rgba(193,134,63,0.08) 0, transparent 45%);
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 32px 20px;
   }
-  .intro {
-    text-align: center;
-    max-width: 480px;
-    margin-bottom: 24px;
+
+  main {
+    width: 100%;
+    max-width: 560px;
   }
-  .intro h1 {
-    color: var(--primary);
-    font-size: 1.8rem;
-    margin-bottom: 8px;
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+    margin-bottom: 18px;
   }
-  .intro p {
-    color: #555;
-    font-size: 0.95rem;
+
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: inline-block;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: clamp(2.1rem, 5vw, 2.75rem);
+    line-height: 1.12;
+    color: var(--sage-deep);
+    margin-bottom: 6px;
+  }
+
+  h1 .es {
+    display: block;
+    font-size: 0.55em;
+    color: var(--sage);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  p.lead {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    color: #3c4e49;
+    max-width: 46ch;
+    margin-top: 18px;
+  }
+
+  /* --- signature element: calm vital-sign line --- */
+  .pulse-wrap {
+    margin: 34px 0 30px;
+    background: var(--white);
+    border: 1px solid var(--sage-line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .pulse-wrap svg {
+    flex-shrink: 0;
+    width: 96px;
+    height: 40px;
+  }
+
+  .pulse-line {
+    fill: none;
+    stroke: var(--sage);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    animation: draw 3.2s ease-in-out infinite;
+  }
+
+  @keyframes draw {
+    0%   { stroke-dashoffset: 220; }
+    45%  { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -220; }
+  }
+
+  .pulse-dot {
+    fill: var(--gold);
+    animation: fade 3.2s ease-in-out infinite;
+  }
+
+  @keyframes fade {
+    0%, 100% { opacity: 0; }
+    45%, 55% { opacity: 1; }
+  }
+
+  .pulse-copy p {
+    font-size: 0.85rem;
     line-height: 1.4;
+    color: #55665f;
   }
-  .status {
-    font-size: 0.8rem;
-    color: #888;
-    margin-top: 12px;
+
+  .pulse-copy strong {
+    color: var(--sage-deep);
   }
-  .status.error { color: #c0392b; }
+
+  /* --- status + cta --- */
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: #55665f;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #c7c1b1;
+    flex-shrink: 0;
+    transition: background 0.3s ease;
+  }
+
+  .status-dot.ok { background: #4f8a6d; }
+  .status-dot.error { background: #b9503b; }
+
+  .hint {
+    margin-top: 22px;
+    font-size: 0.82rem;
+    color: #7c8b85;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--sage-line);
+    font-size: 0.78rem;
+    color: #7c8b85;
+    line-height: 1.5;
+  }
+
+  footer strong { color: var(--sage-deep); }
+
+  @media (max-width: 480px) {
+    .pulse-wrap { flex-direction: column; align-items: flex-start; }
+  }
 </style>
 </head>
 <body>
 
-<div class="intro">
-  <h1>La Meva Salut 🩺</h1>
-  <p>Asistente virtual para la preparación de tu cita médica. Escribe abajo para empezar.</p>
-  <p id="status" class="status">Conectando con el asistente...</p>
-</div>
+<main>
+  <div class="eyebrow">Projecte acadèmic · Assistent de salut</div>
 
-<!-- Widget de chat de Rasa (rasa-webchat) -->
+  <h1>
+    La Meva Salut
+    <span class="es">Prepara la teva cita mèdica / Prepara tu cita médica</span>
+  </h1>
+
+  <p class="lead">
+    Un assistent virtual que t'ajuda a recollir la informació dels teus símptomes
+    abans de la consulta, en català o castellà. Obre el xat de l'extrem inferior
+    dret per començar.
+  </p>
+
+  <div class="pulse-wrap">
+    <svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+      <path class="pulse-line" d="M0,20 L28,20 L36,6 L44,34 L52,20 L100,20" />
+      <circle class="pulse-dot" cx="52" cy="20" r="3" />
+    </svg>
+    <div class="pulse-copy">
+      <p><strong>Sense presses.</strong> El bot et guia pregunta a pregunta i prepara un resum per al teu metge.</p>
+    </div>
+  </div>
+
+  <div class="status-row">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">Connectant amb l'assistent…</span>
+  </div>
+
+  <p class="hint">💬 Busca la bombolla de xat a la cantonada inferior dreta de la pantalla.</p>
+
+  <footer>
+    <strong>Avís:</strong> aquesta és una demo acadèmica. No introdueixis dades
+    mèdiques reals — les respostes no substitueixen l'atenció d'un professional
+    sanitari. / <strong>Aviso:</strong> esta es una demo académica. No introduzcas
+    datos médicos reales.
+  </footer>
+</main>
+
+<!-- Widget oficial de Rasa (@rasahq/chat-widget-ui) -->
+<script
+  type="module"
+  src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"
+></script>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css"
+/>
+
 <script>
   // 👇 CAMBIA ESTA URL por la de tu servidor de Rasa desplegado en Render
-  //    (algo como: https://tu-servicio-rasa.onrender.com)
   const RASA_SERVER_URL = "https://rasa-chatbot-project-la-meva-salut.onrender.com";
 
-  window.WebChatConfig = {
-    socketUrl: RASA_SERVER_URL,
-    initPayload: "/session_start",
-    title: "La Meva Salut",
-    subtitle: "Asistente de preparación de citas",
-    params: {
-      storage: "session"
-    }
-  };
-</script>
-<script src="https://unpkg.com/@rasahq/rasa-chat" defer></script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const widget = document.createElement('rasa-chatbot-widget');
+    widget.setAttribute('server-url', RASA_SERVER_URL);
+    document.body.appendChild(widget);
 
-<script>
-  // Verifica si el servidor responde antes de que el usuario intente chatear
-  const statusEl = document.getElementById('status');
-  fetch(RASA_SERVER_URL.replace(/\/$/, "") + "/")
-    .then(res => {
-      if (res.ok) {
-        statusEl.textContent = "Asistente listo. Usa el botón de chat abajo a la derecha ↘";
-      } else {
-        throw new Error("bad status");
-      }
-    })
-    .catch(() => {
-      statusEl.textContent = "No se pudo conectar con el servidor del asistente. Verifica que esté desplegado y activo.";
-      statusEl.classList.add('error');
-    });
+    const dot = document.getElementById('statusDot');
+    const text = document.getElementById('statusText');
+
+    fetch(RASA_SERVER_URL.replace(/\/$/, "") + "/")
+      .then(res => {
+        if (!res.ok) throw new Error("bad status");
+        dot.classList.add('ok');
+        text.textContent = "Assistent llest. Obre el xat quan vulguis ↘";
+      })
+      .catch(() => {
+        dot.classList.add('error');
+        text.textContent = "No s'ha pogut connectar amb el servidor. Pot trigar ~1 min a despertar si fa temps que ningú l'utilitza.";
+      });
+  });
 </script>
 
 </body>
