@@ -1,0 +1,15 @@
+FROM rasa/rasa-sdk:latest
+
+WORKDIR /app
+
+USER root
+
+COPY ./actions /app/actions
+
+# Si actions.py tuviera dependencias extra, se instalarían aquí, ej:
+# COPY requirements-actions.txt .
+# RUN pip install -r requirements-actions.txt
+
+EXPOSE 5055
+
+CMD ["start", "--actions", "actions"]
