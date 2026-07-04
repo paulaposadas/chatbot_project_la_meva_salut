@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Meva Salut - Asistente Virtual</title>
+<style>
+  :root {
+    --primary: #2b7a78;
+    --primary-light: #def2f1;
+    --bg: #f8fafb;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, var(--bg) 0%, var(--primary-light) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .intro {
+    text-align: center;
+    max-width: 480px;
+    margin-bottom: 24px;
+  }
+  .intro h1 {
+    color: var(--primary);
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+  .intro p {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .status {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 12px;
+  }
+  .status.error { color: #c0392b; }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>La Meva Salut 🩺</h1>
+  <p>Asistente virtual para la preparación de tu cita médica. Escribe abajo para empezar.</p>
+  <p id="status" class="status">Conectando con el asistente...</p>
+</div>
+
+<!-- Widget de chat de Rasa (rasa-webchat) -->
+<script>
+  // 👇 CAMBIA ESTA URL por la de tu servidor de Rasa desplegado en Render
+  //    (algo como: https://tu-servicio-rasa.onrender.com)
+  const RASA_SERVER_URL = "https://rasa-chatbot-project-la-meva-salut.onrender.com";
+
+  window.WebChatConfig = {
+    socketUrl: RASA_SERVER_URL,
+    initPayload: "/session_start",
+    title: "La Meva Salut",
+    subtitle: "Asistente de preparación de citas",
+    params: {
+      storage: "session"
+    }
+  };
+</script>
+<script src="https://unpkg.com/@rasahq/rasa-chat" defer></script>
+
+<script>
+  // Verifica si el servidor responde antes de que el usuario intente chatear
+  const statusEl = document.getElementById('status');
+  fetch(RASA_SERVER_URL.replace(/\/$/, "") + "/")
+    .then(res => {
+      if (res.ok) {
+        statusEl.textContent = "Asistente listo. Usa el botón de chat abajo a la derecha ↘";
+      } else {
+        throw new Error("bad status");
+      }
+    })
+    .catch(() => {
+      statusEl.textContent = "No se pudo conectar con el servidor del asistente. Verifica que esté desplegado y activo.";
+      statusEl.classList.add('error');
+    });
+</script>
+
+</body>
+</html>
