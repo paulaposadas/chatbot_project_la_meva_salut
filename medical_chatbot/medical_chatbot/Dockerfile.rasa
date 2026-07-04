@@ -1,0 +1,21 @@
+FROM rasa/rasa-pro:latest
+
+WORKDIR /app
+
+USER root
+
+# Copiamos todo el proyecto (menos lo excluido en .dockerignore)
+COPY . /app
+
+# Entrenamos el modelo durante el build para que el arranque sea rápido
+# (usa la licencia inyectada como variable de entorno en tiempo de build)
+ARG RASA_PRO_LICENSE
+ENV RASA_PRO_LICENSE=${RASA_PRO_LICENSE}
+
+RUN rasa train
+
+EXPOSE 5005
+
+# --enable-api: expone el endpoint REST/socketio
+# --cors "*": permite que tu página en GitHub Pages pueda llamar a este servidor
+CMD ["rasa", "run", "--enable-api", "--cors", "*", "--port", "5005"]
